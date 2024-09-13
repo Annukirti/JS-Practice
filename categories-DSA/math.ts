@@ -37,7 +37,7 @@ Output: 21
 
 // Palindrome Number
 
-function isPalindrome(x: number): boolean {
+function isPalindrome1(x: number): boolean {
   const values = x.toString().split("");
 
   let result = true;
@@ -164,4 +164,68 @@ Output: 0
 
 // =================================================================================================================
 
-// Excel Sheet column title
+// 2220. Minimum Bit Flips to Convert Number
+
+/**
+ * Example 1:
+
+Input: start = 10, goal = 7
+Output: 3
+Explanation: The binary representation of 10 and 7 are 1010 and 0111 respectively. We can convert 10 to 7 in 3 steps:
+- Flip the first bit from the right: 1010 -> 1011.
+- Flip the third bit from the right: 1011 -> 1111.
+- Flip the fourth bit from the right: 1111 -> 0111.
+It can be shown we cannot convert 10 to 7 in less than 3 steps. Hence, we return 3.
+Example 2:
+
+Input: start = 3, goal = 4
+Output: 3
+Explanation: The binary representation of 3 and 4 are 011 and 100 respectively. We can convert 3 to 4 in 3 steps:
+- Flip the first bit from the right: 011 -> 010.
+- Flip the second bit from the right: 010 -> 000.
+- Flip the third bit from the right: 000 -> 100.
+It can be shown we cannot convert 3 to 4 in less than 3 steps. Hence, we return 3.
+ 
+ */
+
+var minBitFlips = function (start, goal) {
+  let startBits = decimalToBinary(start);
+  let goalBits = decimalToBinary(goal);
+  if (startBits.length !== goalBits.length) {
+    let trailingZeroes =
+      startBits.length > goalBits.length
+        ? startBits.length - goalBits.length
+        : goalBits.length - startBits.length;
+
+    while (trailingZeroes !== 0) {
+      if (startBits.length > goalBits.length) {
+        goalBits.unshift(0);
+      } else {
+        startBits.unshift(0);
+      }
+      trailingZeroes--;
+    }
+  }
+  let count = 0;
+
+  for (let i = startBits.length - 1; i >= 0; i--) {
+    if (startBits[i] != goalBits[i]) {
+      startBits[i] = !startBits[i];
+      count++;
+    }
+  }
+  return count;
+};
+
+function decimalToBinary(num) {
+  let binary = [];
+  while (num !== 0) {
+    const rem = num % 2;
+    num = Math.floor(num / 2);
+    binary.push(rem);
+  }
+  return binary.reverse();
+}
+
+console.log(minBitFlips(3, 4));
+console.log(minBitFlips(10, 7));

@@ -138,34 +138,34 @@ class LinkedList {
 
 let list = new LinkedList();
 
-console.log("isEmpty", list.isEmpty());
-console.log("size", list.listSize());
+// console.log("isEmpty", list.isEmpty());
+// console.log("size", list.listSize());
 
-console.log("add element", list.addElement(10));
-console.log("add element", list.addElement(20));
-console.log("add element", list.addElement(30));
-console.log("add element", list.addElement(40));
+// console.log("add element", list.addElement(10));
+// console.log("add element", list.addElement(20));
+// console.log("add element", list.addElement(30));
+// console.log("add element", list.addElement(40));
 
-console.log("isEmpty", list.isEmpty());
-console.log("size", list.listSize());
+// console.log("isEmpty", list.isEmpty());
+// console.log("size", list.listSize());
 
-console.log("printList", list.printList());
+// console.log("printList", list.printList());
 
-console.log("insert in mid", list.insertAt(50, 2));
+// console.log("insert in mid", list.insertAt(50, 2));
 
-console.log("printList", list.printList());
+// console.log("printList", list.printList());
 
-console.log("removes from mid", list.removesFrom(3));
+// console.log("removes from mid", list.removesFrom(3));
 
-console.log("printList", list.printList());
+// console.log("printList", list.printList());
 
-console.log("remove element", list.removeElement(50));
+// console.log("remove element", list.removeElement(50));
 
-console.log("printList", list.printList());
+// console.log("printList", list.printList());
 
-console.log("find element index", list.indexOf(10));
+// console.log("find element index", list.indexOf(10));
 
-console.log("printList", list.printList());
+// console.log("printList", list.printList());
 
 // ================================= Remove Nth Node From End of List ======================================================
 
@@ -372,3 +372,205 @@ var addTwoNumbers = function (l1, l2) {
   }
   return dummy.next;
 };
+
+// ============================================================================================================================
+
+// 2326. Spiral Matrix IV
+
+/**
+ * Given an m x n matrix, return all elements of the matrix in spiral order.
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+Output: [1,2,3,6,9,8,7,4,5]
+*/
+
+/**
+ * @param {number[][]} matrix
+ * @return {number[]}
+ */
+var spiralOrder = function (matrix) {
+  let rowStart = 0;
+  let rowEnd = matrix.length - 1;
+  let columnStart = 0;
+  let columnEnd = matrix[0].length - 1;
+  let size = matrix.length * matrix[0].length;
+  const result = [];
+  while (
+    rowStart <= rowEnd &&
+    columnStart <= columnEnd &&
+    result.length < size
+  ) {
+    // Traverse Right
+    for (let i = columnStart; i <= columnEnd && result.length < size; i++) {
+      result.push(matrix[rowStart][i]);
+    }
+    rowStart++;
+
+    // Traverse Down
+    for (let i = rowStart; i <= rowEnd && result.length < size; i++) {
+      result.push(matrix[i][columnEnd]);
+    }
+    columnEnd--;
+
+    // Traverse Left
+    for (let i = columnEnd; i >= columnStart && result.length < size; i--) {
+      result.push(matrix[rowEnd][i]);
+    }
+    rowEnd--;
+
+    // Traverse Up
+    for (let i = rowEnd; i >= rowStart && result.length < size; i--) {
+      result.push(matrix[i][columnStart]);
+    }
+    columnStart++;
+  }
+  return result;
+};
+spiralOrder([
+  [1, 2, 3, 4],
+  [5, 6, 7, 8],
+  [9, 10, 11, 12],
+]);
+spiralOrder([
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
+]);
+
+// ====================================================================================================================================
+
+/**
+ * 
+ * Given a positive integer n, generate an n x n matrix filled with elements from 1 to n2 in spiral order.
+Example 1:
+Input: n = 3
+Output: [[1,2,3],[8,9,4],[7,6,5]]
+Example 2:
+
+Input: n = 1
+Output: [[1]]
+
+ */
+var generateMatrix = function (n) {
+  let rowStart = 0;
+  let colStart = 0;
+  let rowEnd = n - 1;
+  let colEnd = n - 1;
+  let count = 1;
+  let maxNum = n * n;
+  let matrix = new Array(n).fill(-1).map((arr) => new Array(n).fill(-1));
+  while (count <= maxNum && rowStart <= rowEnd && colStart <= colEnd) {
+    // Traverse Right
+    for (let i = colStart; i <= colEnd && count <= maxNum; i++) {
+      matrix[rowStart][i] = count;
+      count++;
+    }
+    rowStart++;
+
+    // Traverse Down
+    for (let i = rowStart; i <= rowEnd && count <= maxNum; i++) {
+      matrix[i][colEnd] = count;
+      count++;
+    }
+    colEnd--;
+
+    // Traverse Left
+    for (let i = colEnd; i >= colStart && count <= maxNum; i--) {
+      matrix[rowEnd][i] = count;
+      count++;
+    }
+    rowEnd--;
+
+    // Traverse Up
+    for (let i = rowEnd; i >= rowStart && count <= maxNum; i--) {
+      matrix[i][colStart] = count;
+      count++;
+    }
+    colStart++;
+  }
+  return matrix;
+};
+
+generateMatrix(3);
+
+// ============================================================================================================================
+
+// Spiral Matrix 4
+
+var spiralMatrix = function (m, n, head) {
+  const matrix = new Array(m).fill(-1).map((arr) => new Array(n).fill(-1));
+  console.log(matrix);
+  let rowStart = 0;
+  let rowEnd = m - 1;
+  let colStart = 0;
+  let colEnd = n - 1;
+  let count = 0;
+  let current = head.next;
+  while (current) {
+    for (let i = colStart; i <= colEnd && current; i++) {
+      matrix[rowStart][i] = current.val;
+      current = current.next;
+      count++;
+    }
+    rowStart++;
+
+    for (let i = rowStart; i <= rowEnd && current; i++) {
+      matrix[i][colEnd] = current.val;
+      current = current.next;
+      count++;
+    }
+    colEnd--;
+
+    for (let i = colEnd; i >= colStart && current; i--) {
+      matrix[rowEnd][i] = current.val;
+      current = current.next;
+    }
+    rowEnd--;
+
+    for (let i = rowEnd; i >= rowStart && current; i--) {
+      matrix[i][colStart] = current.val;
+      current = current.next;
+    }
+    colStart++;
+  }
+  return matrix;
+};
+
+// =============================================================================================================================
+
+// 2807. Insert Greatest Common Divisors in Linked List
+
+/**
+ * Input: head = [18,6,10,3]
+Output: [18,6,6,2,10,1,3]
+Explanation: The 1st diagram denotes the initial linked list and the 2nd diagram denotes the linked list after inserting the new nodes (nodes in blue are the inserted nodes).
+- We insert the greatest common divisor of 18 and 6 = 6 between the 1st and the 2nd nodes.
+- We insert the greatest common divisor of 6 and 10 = 2 between the 2nd and the 3rd nodes.
+- We insert the greatest common divisor of 10 and 3 = 1 between the 3rd and the 4th nodes.
+There are no more adjacent nodes, so we return the linked list.
+
+ */
+
+var insertGreatestCommonDivisors = function (head) {
+  let dummyNode = new ListNode(null);
+  dummyNode = head;
+  let prev = head;
+  let current = prev.next;
+
+  while (current) {
+    let gcdNode = new ListNode(calculateGcd(prev.val, current.val), prev.next);
+    prev.next = gcdNode;
+    prev = current;
+    current = current.next;
+  }
+  return dummyNode;
+};
+
+function calculateGcd(num1, num2) {
+  while (num1 && num2) {
+    if (num2 === 0) return num1;
+    let rem = num1 % num2;
+    num1 = num2;
+    num2 = rem;
+  }
+  return num1;
+}
