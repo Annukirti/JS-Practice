@@ -180,3 +180,38 @@ function nextGreatestElement(nums1, nums2) {
 }
 console.log(nextGreatestElement([4, 1, 2], [1, 3, 4, 2])); // [ -1, 3, -1 ]
 console.log(nextGreatestElement([2, 4], [1, 2, 3, 4])); // [ 3, -1 ]
+
+/**
+ * Given an array A, return an array B. B[i] represents the nearest smaller element than A[i] and the element lies on the left of i.
+B[i] for an element A[i] = an element A[j] such that j is maximum possible AND j < i AND A[j] < A[i] 
+
+[4, 2, 5, 8, 10] => [-1, -1, 2, 5, 8]
+[4, 2, 5, 11, 10] => [-1, -1, 2, 5, 5]
+
+ */
+
+function nearestSmallerElement(arr) {
+  let result = [];
+  let stack = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    // First condition
+    while (stack.length > 0 && stack[stack.length - 1] >= arr[i]) {
+      stack.pop();
+    }
+
+    // Second condition
+    if (stack.length === 0) {
+      result.push(-1);
+    } else {
+      result.push(stack[stack.length - 1]);
+    }
+
+    stack.push(arr[i]);
+  }
+
+  return result;
+}
+console.log(nearestSmallerElement([4, 2, 5, 8, 10]));
+console.log(nearestSmallerElement([4, 2, 5, 11, 10]));
+console.log(nearestSmallerElement([4, 10, 10, 1, 20]));
